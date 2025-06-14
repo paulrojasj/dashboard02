@@ -1,0 +1,26 @@
+# Python caches
+__pycache__/
+*.pyc
+
+# Virtual environments
+venv/
+
+# Environment variables
+.env
+
+# Generated data files
+*.xlsx
+*.hyper
+
+talent_dashboard_project/data/raw_data/*
+!talent_dashboard_project/data/raw_data/.gitkeep
+
+talent_dashboard_project/data/processed/*
+!talent_dashboard_project/data/processed/.gitkeep
+
+talent_dashboard_project/data/tableau/*
+!talent_dashboard_project/data/tableau/.gitkeep
+
+# Logs
+talent_dashboard_project/logs/*
+!talent_dashboard_project/logs/.gitkeep
