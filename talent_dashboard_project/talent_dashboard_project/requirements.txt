@@ -1,7 +1,7 @@
-pandas==1.5.3
-numpy==1.23.5
+pandas
 openpyxl
-sqlalchemy==1.4.52
+sqlalchemy
 psycopg2-binary
 python-dotenv
+
 tableauhyperapi

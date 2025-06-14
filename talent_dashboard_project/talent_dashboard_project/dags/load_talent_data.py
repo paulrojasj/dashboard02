@@ -1,6 +1,3 @@
-import sys
-sys.path.append('/Users/paulr/mi-proyecto/Prueba01/dashboard02/dashboard02/talent_dashboard_project')
-
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from datetime import datetime
