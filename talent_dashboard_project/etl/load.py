@@ -21,8 +21,11 @@ def load_df(df: pd.DataFrame, table_name: str, if_exists: str = 'append'):
     from sqlalchemy.types import String, Date, Integer, Numeric
     from sqlalchemy import inspect
     dtype_map = None
-    inspector = inspect(engine)
-    table_exists = inspector.has_table(table_name)
+    try:
+        inspector = inspect(engine)
+        table_exists = inspector.has_table(table_name)
+    except Exception:
+        table_exists = False
     # Forzar tipos de columnas a str donde corresponda
     if table_name == 'empleados':
         df['id_empleado'] = df['id_empleado'].astype(str)
@@ -74,8 +77,10 @@ def load_df(df: pd.DataFrame, table_name: str, if_exists: str = 'append'):
             'fecha': Date(),
             'evaluador': String()
         }
-    if table_exists:
-        df.to_sql(table_name, engine, if_exists=if_exists, index=False, method='multi')
-    else:
-        df.to_sql(table_name, engine, if_exists=if_exists, index=False, dtype=dtype_map, method='multi')
+    with engine.begin() as conn:
+        dbapi_conn = conn.connection
+        if table_exists:
+            df.to_sql(table_name, dbapi_conn, if_exists=if_exists, index=False)
+        else:
+            df.to_sql(table_name, dbapi_conn, if_exists=if_exists, index=False, dtype=dtype_map)
     logging.info('Loaded %s records into %s', len(df), table_name)

@@ -40,3 +40,4 @@ talent_dashboard_project/data/tableau/*
 
 # Untracked
 untracked/
+airflow_home/

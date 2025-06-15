@@ -1,10 +1,17 @@
 import sys
-sys.path.append('/Users/paulr/mi-proyecto/Prueba01/dashboard02/dashboard02/talent_dashboard_project')
+from pathlib import Path
+
+# Ensure project root is on the Python path so ETL modules can be imported
+# When the DAG is executed from within the Airflow ``dags`` folder, the project
+# root is two levels above this file. Adding it to ``sys.path`` allows imports
+# such as ``from etl import ...`` to work correctly regardless of where the DAG
+# file is located.
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+sys.path.append(str(PROJECT_ROOT))
 
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from datetime import datetime
-from pathlib import Path
 import logging
 import shutil
 
@@ -12,9 +19,9 @@ from etl.extract import get_excel_files, read_excel
 from etl.transform import transform
 from etl.load import load_df
 
-RAW_DATA_DIR = Path(__file__).resolve().parents[1] / 'data' / 'raw_data'
-PROCESSED_DIR = Path(__file__).resolve().parents[1] / 'data' / 'processed'
-LOG_DIR = Path(__file__).resolve().parents[1] / 'logs'
+RAW_DATA_DIR = PROJECT_ROOT / 'data' / 'raw_data'
+PROCESSED_DIR = PROJECT_ROOT / 'data' / 'processed'
+LOG_DIR = PROJECT_ROOT / 'logs'
 
 for d in [RAW_DATA_DIR, PROCESSED_DIR, LOG_DIR]:
     d.mkdir(parents=True, exist_ok=True)
